@@ -156,7 +156,3 @@ This application uses Llama 3 (8B parameter version) instead of GPT-4 because:
 - The system is designed for one-on-one interviews
 - For best experience, use Chrome or Firefox
 - Default timeout is 100 seconds for Llama 3 responses on CPU
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
