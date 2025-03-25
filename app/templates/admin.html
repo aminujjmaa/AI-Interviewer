@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>AI Interviewer - Admin Dashboard</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">Create New Interview</div>
+        <div class="card-body">
+            <form action="/create_interview" method="post">
+                <div class="mb-3">
+                    <label for="candidate_name" class="form-label">Candidate Name</label>
+                    <input type="text" class="form-control" id="candidate_name" name="candidate_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="job_title" class="form-label">Job Title</label>
+                    <input type="text" class="form-control" id="job_title" name="job_title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cv" class="form-label">CV/Resume</label>
+                    <textarea class="form-control" id="cv" name="cv" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="job_description" class="form-label">Job Description</label>
+                    <textarea class="form-control" id="job_description" name="job_description" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="system_prompt" class="form-label">Interviewer Instructions (Optional)</label>
+                    <textarea class="form-control" id="system_prompt" name="system_prompt" rows="3"></textarea>
+                    <div class="form-text">Additional instructions for the AI interviewer, e.g., specific areas to focus on.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Interview</button>
+            </form>
+        </div>
+    </div>
+    
+    <h2>Past Interviews</h2>
+    <div class="row">
+        {% if interviews %}
+            {% for interview in interviews %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ interview.candidate_name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ interview.job_title }}</h6>
+                            <p class="card-text">
+                                Created: {{ interview.created_at }}<br>
+                                {% if interview.completed %}
+                                    <span class="badge bg-success">Completed</span>
+                                    <br>Rating: {{ interview.rating }}/10
+                                {% else %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% endif %}
+                            </p>
+                            <a href="/interview/{{ interview.id }}" class="btn btn-sm btn-primary">View</a>
+                            {% if not interview.completed %}
+                                <a href="/interview/{{ interview.id }}/link" class="btn btn-sm btn-outline-primary">Get Link</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <p>No interviews created yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
